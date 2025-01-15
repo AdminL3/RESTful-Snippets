@@ -4,8 +4,7 @@ function wp_api_settings_page() {
     // Get the existing token from the database
     $api_token = get_option('wp_api_token', '');
     ?>
-    <h1>WP API Settings</h1>
-    <p>Welcome to the WP API plugin settings page.</p>
+    <h1>RESTful Snippets Settings</h1>
     <p>Use the existing Token to access the API</p>
     <p>or generate a new one if your's has been compromised.</p>
 
@@ -26,5 +25,3 @@ function wp_api_settings_page() {
         echo '<meta http-equiv="refresh" content="0">';
     }
 }
-
-
