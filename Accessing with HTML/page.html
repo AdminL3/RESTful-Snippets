@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snippet Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Snippet Manager</h1>
+    <div class="form-container">
+        <label for="snippetId">Snippet ID:</label>
+        <input type="text" id="snippetId" placeholder="Enter Snippet ID">
+
+        <label for="snippetContent">Content (for Update):</label>
+        <input type="text" id="snippetContent" placeholder="Enter Content">
+
+        <button onclick="updateSnippet()">Update Snippet</button>
+        <button onclick="removeSnippet()">Remove Snippet</button>
+    </div>
+
+    <div id="output" style="margin-top: 20px;"></div>
+
+    <script>
+        const base = "https://your-page/wp-json/restful-snippets/";
+        const token = "YOUR_WP_TOKEN_HERE";
+
+        async function updateSnippet() {
+            const snippetId = document.getElementById("snippetId").value;
+            const content = document.getElementById("snippetContent").value;
+
+            if (!snippetId || !content) {
+                displayOutput("Snippet ID and content are required for updating.", true);
+                return;
+            }
+
+            const url = `${base}update`;
+            const headers = {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            };
+            const data = {
+                team_id: snippetId,
+                content: content
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: headers,
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                displayOutput(`Snippet for team ${snippetId} created/updated successfully: ${JSON.stringify(result)}`);
+            } catch (error) {
+                displayOutput(`An error occurred while updating the snippet: ${error}`, true);
+            }
+        }
+
+        async function removeSnippet() {
+            const snippetId = document.getElementById("snippetId").value;
+
+            if (!snippetId) {
+                displayOutput("Snippet ID is required for removing.", true);
+                return;
+            }
+
+            const url = `${base}delete`;
+            const headers = {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            };
+            const data = {
+                snippet_id: snippetId
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: headers,
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                displayOutput(`Snippet for team ${snippetId} deleted successfully: ${JSON.stringify(result)}`);
+            } catch (error) {
+                displayOutput(`An error occurred while deleting the snippet: ${error}`, true);
+            }
+        }
+
+        function displayOutput(message, isError = false) {
+            const outputDiv = document.getElementById("output");
+            outputDiv.style.color = isError ? "red" : "green";
+            outputDiv.textContent = message;
+        }
+    </script>
+</body>
+
+</html>
