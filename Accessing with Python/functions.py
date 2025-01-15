@@ -1,7 +1,8 @@
 import requests
 import config
 
-base = "https://your-page/wp-json/restful-snippets/"
+base = "http://localhost/plugin-test/wp-json/restful-snippets/"
+
 token = config.WP_TOKEN
 
 
@@ -14,7 +15,7 @@ def update_snippet(snippet_id, content):
     }
 
     data = {
-        'team_id': snippet_id,
+        'snippet_id': snippet_id,
         'content': content
     }
 
