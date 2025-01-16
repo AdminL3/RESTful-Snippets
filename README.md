@@ -38,3 +38,9 @@ pip install -r requirements.txt
 - Use Wordpress snippet on your wordpress page:
 
 [snippet id="your-specified-id"]
+
+---
+
+Features to be added:
+
+- [ ] Snippet Previews

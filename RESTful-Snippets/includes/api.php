@@ -4,7 +4,7 @@ add_action('rest_api_init', function () {
     register_rest_route('restful-snippets', '/update', array(
         'methods' => 'POST',
         'callback' => 'update_snippet',
-        'permission_callback' => function() {
+        'permission_callback' => function () {
             return true;
         }
     ));
@@ -13,14 +13,15 @@ add_action('rest_api_init', function () {
     register_rest_route('restful-snippets', '/delete', array(
         'methods' => 'POST',
         'callback' => 'delete_snippet',
-        'permission_callback' => function() {
+        'permission_callback' => function () {
             return true;
         }
     ));
 });
 
 
-function update_snippet($request) {
+function update_snippet($request)
+{
     $headers = getallheaders();
     $provided_token = isset($headers['Authorization']) ? str_replace('Bearer ', '', $headers['Authorization']) : '';
 
@@ -40,7 +41,8 @@ function update_snippet($request) {
 }
 
 
-function delete_snippet($request) {
+function delete_snippet($request)
+{
     $headers = getallheaders();
     $provided_token = isset($headers['Authorization']) ? str_replace('Bearer ', '', $headers['Authorization']) : '';
 
